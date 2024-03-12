@@ -1,0 +1,102 @@
+import random
+print('---Welcome to the game of TIC TAC TOE---')
+pname = input('Enter your name: ')
+print(f'Hello {pname}! Let\'s start the game.')
+
+signs = ['O','X','o','x']
+
+while True:
+    player_sign = input('Please choose your sign (X or O): ')
+    if player_sign in signs :
+        player_sign = player_sign.capitalize()
+        break
+    else :
+        print('Error. Please re-enter your answer.')
+        pass
+
+if player_sign == 'X' :
+    bot_sign = 'O'
+else :
+    bot_sign = 'X'
+
+print(f'\nYou are now {player_sign}.\nThe bot is {bot_sign}.\n')
+
+board = ["1", "2", "3", "4", "5", "6", "7", "8", "9"]
+
+player_played = []
+bot_played = []
+all_played = []
+player_played.sort()
+bot_played.sort()
+
+wins = [[1,2,3],[1,4,7],[2,5,8],[3,6,9],[4,5,6],[7,8,9],[1,5,9],[3,5,7]]
+
+def check_win(played, wins):
+    for win in wins:
+        if set(win).issubset(set(played)):
+            return True
+    return False
+
+while True:
+    
+    print('\n')
+    print(f'|{board[0]}|{board[1]}|{board[2]}|')
+    print(f'|{board[3]}|{board[4]}|{board[5]}|')
+    print(f'|{board[6]}|{board[7]}|{board[8]}|')
+
+    print('\nChoose your move.')
+    
+    # No need to put the trues here
+    while True:
+        player_hand = input('Enter a position number: ')
+        if player_hand in board and int(player_hand) not in all_played :
+            player_hand = int(player_hand)
+            player_played.append(player_hand)
+            all_played.append(player_hand)
+            print(f'player_played: {player_played}')
+            has_won = check_win(player_played, wins)
+            # check if player has won
+            board[player_hand-1] = player_sign
+            break
+        else :
+            print('Error. Please re-enter your answer.')
+            pass
+        
+    if has_won == True:
+        print('\nCongrats, You won!\n')
+        break
+    elif len(all_played) == 9:
+        print('\nIt is a tie.\n')
+        break
+    
+    while True:
+        bot_hand = random.randint(1,9)
+        if bot_hand not in all_played :
+            bot_played.append(bot_hand)
+            all_played.append(bot_hand)
+            print(f'bot_played: {bot_played}')
+            bot_has_won = check_win(bot_played, wins)
+            # check if bot has won
+            board[bot_hand-1] = bot_sign
+            break
+        else:
+            pass
+    
+    
+    if bot_has_won == True:
+        print('Oh no, you lost.\n')
+        break
+    elif len(all_played) == 9:
+        print('It is a tie.\n')
+        break
+    else : 
+        pass
+
+print(f'|{board[0]}|{board[1]}|{board[2]}|')
+print(f'|{board[3]}|{board[4]}|{board[5]}|')
+print(f'|{board[6]}|{board[7]}|{board[8]}|')
+
+print('---------')
+print(player_played)
+print(bot_played)
+print(all_played)
