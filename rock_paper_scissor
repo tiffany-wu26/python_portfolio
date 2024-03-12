@@ -1,0 +1,59 @@
+import random
+
+print('Welcome to Rock, Paper, Scissor! Best out of 3.')
+name = input('Please enter your name: ')
+
+hand = ['Rock','Paper','Scissor']
+result = ['Its a Tie','You won!','You lost']
+
+winner = 0
+
+player = 0
+bot = 0
+tie = 0
+
+for r in range(1,4):
+    
+    while True:
+        player_hand = input('Enter the according number (1) Rock (2) Paper (3) Scissor : ')
+        if player_hand == '1' or player_hand == '2'or player_hand == '3' :
+            player_hand = int(player_hand) #change to int 
+            break
+        else :
+            print('Error. Please re-enter your answer.')
+            pass
+    
+    computer_hand = random.randint(1,3)
+        
+    print(f'Round {r}: {name} played {hand[(player_hand - 1)]}')
+    print(f'Round {r}: The Bot played {hand[(computer_hand - 1)]}')
+
+    play = int(player_hand) - computer_hand
+
+    if play == 0 :
+        winner += 0
+        tie += 1
+        print("--It's a tie!--")
+    elif play == 1 or play == -2 :
+        winner += 1
+        player += 1
+        print(f'--{name} won!--')
+    elif play == 2 or play == -1 :
+        winner -= 1
+        bot += 1
+        print('--The Bot won!--')
+
+print('-----RESULTS-----')
+print(f"{name}'s score: {player}")
+print(f"The Bot's score: {bot}")
+print(f"There were {tie} ties.")
+print('--------------------')
+        
+if winner == 0 :
+    print(f'{result[0]}')
+elif winner > 0 :
+    print(f'{result[1]}')
+elif winner < 0 :
+    print(f'{result[2]}')
+
+print(f'Thank you for playing, {name}')
