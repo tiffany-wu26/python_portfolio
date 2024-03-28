@@ -1,0 +1,28 @@
+import pandas as pd
+afs = pd.read_csv('Affairs.csv')
+FemData = afs.loc[afs['gender']=='female']
+ManData = afs.loc[afs['gender']=='male']
+def affPerc(*args) :
+    if args[0] == 'F' :
+        data = FemData
+        data1 = f'F{args[1][:3]}1'
+        data1 = f'F{args[1][:3]}2'
+        data3 = f'F{args[1][:3]}3'
+        resultname = f'F{args[1][:3]}_result'
+        print(resultname)
+    else :
+        data = ManData
+        data1 = f'M{args[1][:3]}1'
+        data1 = f'M{args[1][:3]}2'
+        data3 = f'M{args[1][:3]}3'
+        resultname = f'M{args[1][:3]}_result'
+        print(resultname)
+    data1 = data[[args[1],'have affair']].groupby(args[1]).sum() #total pop
+    data2 = data[[args[1],'have affair']].groupby(args[1]).count() ## have affair
+    data3 = (data1/data2)*100 # % have affair
+    result = pd.merge(pd.merge(data1, data2, on=args[1]), data3.round(1), on = args[1])
+    result.columns = ['# have affair', f'total {args[0]} pop', '% have affair']
+    result
+    return resultname == result
+
+affPerc('F','occupation')
